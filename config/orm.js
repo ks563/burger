@@ -9,9 +9,9 @@ var orm = {
             console.log(result);
         });
     },
-    insertOne: function(table) {
-        var queryString = "INSERT INTO ?? (";
-        connection.query(queryString, [table, colToSearch, valofCol], function (err, result) {
+    insertOne: function(table, arrOfVal) {
+        var queryString = "INSERT INTO ?? (?)";
+        connection.query(queryString, [table, arrOfVal], function (err, result) {
             if (err) throw (err);
             console.log(result);
         });
@@ -27,3 +27,4 @@ var orm = {
 }
 
 
+module.exports = orm;
