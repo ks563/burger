@@ -8,10 +8,22 @@ var burger = require("../models/burger.js");
 
 router.get("/", function (req, res) {
     burger.selectAll(function (data) {
-        var burgerObject = {
+        var hbsObject = {
             burgers: data
         };
-        console.log(burgerObject);
-        res.render("index", burgerObject);
-    })
-})
+        console.log(hbsObject);
+        res.render("index", hbsObject);
+    });
+});
+
+router.post("api/burgers", function (req, res) {
+    burger.create([
+        "name", "devoured"
+    ], [
+            req.body.name, req.body.devoured
+        ], function (result) {
+            res.json({ id: result.insertID });
+        });
+});
+
+module.exports = router;
