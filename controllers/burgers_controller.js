@@ -9,7 +9,7 @@ var burger = require("../models/burger.js");
 router.get("/", function (req, res) {
     burger.selectAll(function (data) {
         var hbsObject = {
-            burgers: data
+            burger: data
         };
         console.log(hbsObject);
         res.render("index", hbsObject);
@@ -17,7 +17,7 @@ router.get("/", function (req, res) {
 });
 
 router.post("api/burgers", function (req, res) {
-    burger.create([
+    burger.insertOne([
         "name", "devoured"
     ], [
             req.body.name, req.body.devoured
