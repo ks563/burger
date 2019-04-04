@@ -1,26 +1,60 @@
 //imports mysql connection
 var connection = require("../config/connection.js");
 
+// function printQuestionMarks(num) {
+//     var arr = [];
+  
+//     for (var i = 0; i < num; i++) {
+//       arr.push("?");
+//     }
+  
+//     return arr.toString();
+// }
+  
+function objToSql(ob) {
+    var arr = [];
+    for (var key in ob) {
+        var value = ob[key];
+        if (Object.hasOwnProperty.call(ob, key)) {
+            if (typeof value === "string" && value.indexOf(" ") >= 0){
+                value = "'" + value + "'";
+            }
+            arr.push(key + "=" + value);
+        }
+    }
+    return arr.toString();
+}
+
+
 var orm = {
-    selectAll: function (table) {
+    selectAll: function (table, cb) {
         var queryString = "SELECT * FROM ??";
         connection.query(queryString, [table], function (err, result) {
             if (err) throw (err);
-            console.log(result);
+            cb(result);
+
         });
     },
-    insertOne: function(table, arrOfVal) {
+    insertOne: function(table, arrOfVal, cb) {
         var queryString = "INSERT INTO ?? (?)";
         connection.query(queryString, [table, arrOfVal], function (err, result) {
             if (err) throw (err);
-            console.log(result);
+            cb(result);
+
         });
     },
-    updateOne: function (table, updatedVal, colToUpdate, valofCol) {
-        var queryString = "UPDATE ?? SET ?? WhHERE ?? = ?";
-        connection.query(queryString, [table, updatedVal, colToUpdate, valofCol], function (err, result) {
+    updateOne: function (table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
+
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+        
+        connection.query(queryString, function (err, result) {
             if (err) throw (err);
-            console.log(result);
+            cb(result);
+
         })
     }
 
