@@ -6,6 +6,7 @@ var router = express.Router();
 var burger = require("../models/burger.js");
 
 //creates routes and sets up logic for routes
+//used catsController.js as a guide for routes
 router.get("/", function (req, res) {
     burger.selectAll(function (data) {
         var hbsObject = {
@@ -28,6 +29,7 @@ router.post("api/burgers", function (req, res) {
 
 router.put("/api/burgers/:id", function (req, res) {
     var condition = "id = " + req.params.id;
+
     console.log("condition", condition);
     
     burger.updateOne({
