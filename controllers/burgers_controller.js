@@ -43,5 +43,5 @@ router.put("/api/burgers/:id", function (req, res) {
     });
 });
 
-//exports routes
+//exports routes to server
 module.exports = router;
