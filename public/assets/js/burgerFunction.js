@@ -23,7 +23,18 @@ $(function () {
         event.preventDefault();
 
         var newBurger = {
-            name: $("#burger").val().trim();
-        }
-    })
-})
+            name: $("#burger").val().trim(),
+            devoured: $("[name=devoured]:checked").val().trim()
+        };
+
+        $.ajax("api/burgers", {
+            type: "POST",
+            data: newBurger
+        }).then(
+            function () {
+                console.log("cooked up a new burger")
+                location.reload();
+            }
+        )
+    });
+});
