@@ -18,11 +18,13 @@ router.get("/", function (req, res) {
 });
 
 router.post("api/burgers", function (req, res) {
+    const data = req.body;
     burger.insertOne([
         "name", "devoured"
     ], [
             req.body.name, req.body.devoured
         ], function (result) {
+            console.log(result);
             res.json({ id: result.insertID });
         });
 });
